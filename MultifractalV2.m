@@ -23,6 +23,7 @@ function [A, epsilon, TAU, IQ] = MultifractalV2( Matriz, Q )
                     %     I = padarray(I, [rowPad, colPad], 'post');
 
     %Predefino los dos vectores salidas con cero
+    %Predefine the output arrays with ceros
     boxCounts = zeros(1, ceil(log2(maxDim)));
     resolutions = zeros(1, ceil(log2(maxDim)));
     
@@ -30,13 +31,15 @@ function [A, epsilon, TAU, IQ] = MultifractalV2( Matriz, Q )
     boxesPerDim = 1;
     idx = 0;
     
-    %BUcle donde el tamaño de la caja se va haciendo mas pequea
+    %BUcle donde el tamaÃ±o de la caja se va haciendo mas pequea
+    %Looping and decreasing the box size
     while boxSize >= 1
         boxCount = 0;
         numberperBox = 0;
         idx = idx + 1;
         %Bucles donde van moviendo la caja. Primero por filas, y luego
         %cambia a la siguiente columna y continua
+        %This loop moves the box. First in rows and then in columns.
         for boxRow = 1:boxesPerDim
             for boxCol = 1:boxesPerDim
                 
@@ -47,15 +50,20 @@ function [A, epsilon, TAU, IQ] = MultifractalV2( Matriz, Q )
                 maxCol = boxCol * boxSize;
                 
             %Comprobacion del movimiento de las cajas 
+            %Uncoment to check how the box is moving.
 %                 figure(11);
 %                 imshow(I)
 %                 hold on
 %                 rectangle('Position', [minRow, minCol, maxRow-minRow, maxCol-minCol],'EdgeColor', 'w')
                 
+                
                 %Conteo del numero de cajas
+                %Number of boxes at same size counter
                 boxCount = boxCount + 1;
                 %Vedctor que te guarda el numero de puntos encontrados en
                 %cada caja, por tanto su dmension es el numero de cajas
+                
+                %Array for saving the number of found pixel in each box at the same size
                 numberperBox(boxCount) = sum(sum(Matriz(minCol:maxCol,minRow:maxRow)));
                 
                 
@@ -66,10 +74,12 @@ function [A, epsilon, TAU, IQ] = MultifractalV2( Matriz, Q )
         end
         %Calculo del numero de puntos por caja entre el numero de puntos
         %totales.
+        %Calculate the probability of finding the points in the box.
         ProbabilityperBox = numberperBox./sum(numberperBox);
         ProbabilityperBox = nonzeros(ProbabilityperBox);
         boxSize
         %Numero de cajas que contienen mas de 1 punto
+        %Number of boxes with more than 1 point.
         NumberOfmore0Pixel = sum(numberperBox > 0);
         
         ProbabilityQ = zeros(length(Q), length(ProbabilityperBox));
@@ -98,7 +108,8 @@ function [A, epsilon, TAU, IQ] = MultifractalV2( Matriz, Q )
              
              
         
-        %Disminuyo por la mitad el tamaño de cajas
+        %Disminuyo por la mitad el tamaÃ±o de cajas
+        %Decrease by half the box size.
         boxesPerDim = boxesPerDim * 2;
         boxSize = boxSize / 2;
     end
