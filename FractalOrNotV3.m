@@ -29,7 +29,7 @@ hold on
  for i = 1:length(Q)
 
 
-%Calculate the slope of tau, to que get Tau and A to get alpha
+%Calculate the slope of tau, to get Tau and A to get alpha
  p = polyfit(log(eps(beg:fin)'), log(tau(beg:fin,i)), 1);
 tau1(i) = p(1);
 
