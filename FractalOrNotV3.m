@@ -15,7 +15,7 @@
 %Choose the Q max
 MaxQ = 10;
 %It will sweep a symetric Q with 1000 points
-Q = linspace(-MaxQ, MaxQ, 1000);
+Q = linspace(-MaxQ, MaxQ, 10);
 
 % A square matrix is needed
 [A,eps, tau, IQ] = MultifractalV2( Matriz, Q );
@@ -24,29 +24,29 @@ tau1 = 0;
 figure(5);
 %Limits for calculating the slope of TAU and A
 beg = 1 ;
-fin = 3;
+fin = 2;
 hold on
  for i = 1:length(Q)
 
 
-%Calculate the slope of tau, to get Tau and A to get alpha
+%Calculate the slope of tau, to que get Tau and A to get alpha
  p = polyfit(log(eps(beg:fin)'), log(tau(beg:fin,i)), 1);
 tau1(i) = p(1);
 
 p2 = polyfit(log(eps(beg:fin)'), log(A(beg:fin,i)), 1);
- alpha(i) = p2(1);
+alpha(i) = p2(1);
 
 %Uncomment to check if the chosen limits are correct
 
-%      figure(10)
-%     hold on
-% plot(log(eps(beg:fin)), log(tau(beg:fin,i)), '.-', 'MarkerSize', 30)
+     figure(10)
+    hold on
+plot(log(eps(beg:fin)), log(tau(beg:fin,i)), '.-', 'MarkerSize', 30)
 
 
-% figure(11)
-%  hold on
-%   plot(log(eps(beg:fin)), log(A(beg:fin,i)), '.-', 'MarkerSize', 30)
-%  pause
+figure(11)
+ hold on
+  plot(log(eps(beg:fin)), log(A(beg:fin,i)), '.-', 'MarkerSize', 30)
+ pause
  
 % 
 
